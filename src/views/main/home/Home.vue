@@ -2,11 +2,13 @@
   <div class="home">
     <Header>
       <template #header-main>
-        <div class="home_header" @click="show.side = true">
+        <div class="home_header">
           <!--点击这里就显示 选择收货地址板块-->
-          <i class="iconfont icon-dingwei"></i>
-          <span>{{ currentSide ? currentSide : "请选择城市/地址" }}</span>
-          <i class="iconfont icon-xiala"></i>
+          <div @click="show.side = true">
+            <i class="iconfont icon-dingwei"></i>
+            <span>{{ currentSide ? currentSide : "请选择城市/地址" }}</span>
+            <i class="iconfont icon-xiala"></i>
+          </div>
           <div class="header_search" v-fixed>
             <p class="search_main">
               <i class="iconfont icon-sousuo"></i>
@@ -17,7 +19,7 @@
       </template>
     </Header>
 
-    
+   
 
     <!-- <h2>首页</h2> -->
     <!-- 轮播图开始 -->
@@ -37,7 +39,7 @@
       </van-swipe>
     </div>
     <!-- 轮播图结束 -->
-
+     <Vfilter  v-fixed:60></Vfilter> 
     <!-- 是否显示 收货地址板块 
     @sback="show.side=false 隐藏收货地址
     绑定sback事件
@@ -54,12 +56,14 @@
 <script>
 import Header from "@comps/header/Header.vue";
 import Side from "@comps/side/Side.vue";
+import Vfilter from "@comps/filter/Filter.vue";
 import homeModel from "./js/homeModel.js";
 import { Swipe, SwipeItem } from "vant"; //按需引入
 export default {
   components: {
     Header,
     Side,
+    Vfilter,
     [Swipe.name]: Swipe, //按需引入
     [SwipeItem.name]: SwipeItem,
   },
@@ -71,7 +75,8 @@ export default {
       currentSide,
       show, //返回出去
       foodtype,
-      splicefood
+      splicefood,
+      Vfilter
     };
   },
 };
@@ -91,15 +96,19 @@ export default {
       margin: 0rem 0.133333rem;
       font-weight: 500;
     }
+    //搜索部分
     .header_search {
-      //搜索部分
-      margin: 0.266667rem 0.8rem 0.266667rem 0.266667rem;
+      z-index: 10;
+      // margin: 0.266667rem 0.8rem 0.266667rem 0.266667rem;
+      padding: 0.266666rem .133333rem; //10px
       background-image: linear-gradient(90deg, #50abfc, #226dfe);
       color: #ccc;
       .search_main {
         padding: 0.266667rem 0.533333rem 0.266667rem 0.266667rem;
+        // background-image: linear-gradient(90deg, #50abfc, #226dfe);
         background-color: #fff;
         font-size: 0.373333rem;
+        width: 89%;
         text-align: center;
         .icon-sousuo {
           margin-right: 0.266667rem;
