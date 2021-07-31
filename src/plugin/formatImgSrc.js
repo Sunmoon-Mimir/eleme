@@ -1,7 +1,6 @@
 // 格式化图片地址
 function formatImgSrc(hash, size, auto) {
 
-
     if (!hash) return '';
     hash = hash.replace(/^(.{1})(.{2})(.+(jpeg|png))$/g, '$1/$2/$3.$4');
     size = size || 90;
@@ -10,7 +9,6 @@ function formatImgSrc(hash, size, auto) {
 }
 
 export default formatImgSrc;
-
 /*
 
  image_hash:"c7e76a23eb90dada42528bc41499d6f8jpeg"

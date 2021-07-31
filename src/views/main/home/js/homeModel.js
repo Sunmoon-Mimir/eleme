@@ -1,15 +1,16 @@
-import { getCurrentInstance, toRefs, reactive, onMounted, computed, proxyRefs } from "vue";
+//首页
+import { getCurrentInstance, toRefs, reactive, onMounted, computed } from "vue";
 
 function homeModel() {
     const { proxy } = getCurrentInstance();
     const data = reactive({
             show: { side: false },
             currentSide: '',
-            foodtype: '',
+            foodtype: null,
             saveSide(val) {
                 // 处理接收到的值
                 data.currentSide = val;
-                console.log(data.currentSide)
+                // console.log(data.currentSide)
             }
         })
         //拆分 分类的数据，10条数据为一组
@@ -30,8 +31,11 @@ function homeModel() {
         //获取分类数据（首页轮播）
         proxy.$axios('/foodtype').then(res => {
             data.foodtype = res.data //赋值给响应式属性foodtype
-                // console.log(res.data)
+                // console.log(data.foodtype)
         })
+
+
+
     })
 
     return {

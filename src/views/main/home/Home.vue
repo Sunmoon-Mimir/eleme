@@ -39,11 +39,18 @@
       </van-swipe>
     </div>
     <!-- 轮播图结束 -->
+
+
+    <!-- 筛选器 -->
      <Vfilter  v-fixed:60></Vfilter> 
+
+
+    <!-- 首页列表 -->
+    <!-- v-bind传值 -->
+    <Elist></Elist>
+
     <!-- 是否显示 收货地址板块 
-    @sback="show.side=false 隐藏收货地址
-    绑定sback事件
-    -->
+    @sback="show.side=false 隐藏收货地址绑定sback事件-->
     <!-- proxy.$emit('changeSide', val.name)   此处的@changeSide是接收值的-->
     <Side
       v-show="show.side"
@@ -57,18 +64,20 @@
 import Header from "@comps/header/Header.vue";
 import Side from "@comps/side/Side.vue";
 import Vfilter from "@comps/filter/Filter.vue";
+import Elist from "@comps/elist/Elist.vue";
 import homeModel from "./js/homeModel.js";
 import { Swipe, SwipeItem } from "vant"; //按需引入
 export default {
   components: {
     Header,
     Side,
+    Elist,
     Vfilter,
     [Swipe.name]: Swipe, //按需引入
     [SwipeItem.name]: SwipeItem,
   },
   setup() {
-    const { show, saveSide, currentSide, foodtype ,splicefood} = homeModel(); //解构拿到
+    const { show, saveSide, currentSide, foodtype ,splicefood,} = homeModel(); //解构拿到
 
     return {
       saveSide,
@@ -84,7 +93,7 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-  height: 53.333333rem;
+  // height:53.333333rem;//2000px
   .home_header {
     padding: 0.533333rem 0.533333rem 0.266667rem 0.533333rem;
     font-size: 0.48rem; //18px
@@ -121,6 +130,7 @@ export default {
     height: 5.866666rem; //220
     .foodType_main {
       flex-wrap: wrap;
+      margin-right: .266667rem;
     }
     .foodType_item {
       width: 20%;
@@ -145,3 +155,6 @@ export default {
   } /* 轮播结束*/
 }
 </style>
+
+
+

@@ -28,12 +28,12 @@
               <dt class="item_title"
               v-for="ditem in data[3].items" :key="ditem.id"
               >
-              {{ditem.name}}
-              <dd class="item_wrap flex">
-                <div class="item_con"
-                v-for="ite in ditem.items" :key="ite.id"
-                >{{ite.name}}</div>
-              </dd>
+                {{ditem.name}}
+                <dd class="item_wrap flex">
+                  <div class="item_con"
+                  v-for="ite in ditem.items" :key="ite.id"
+                  >{{ite.name}}</div>
+                </dd>
               </dt>
               
             </dl>
@@ -179,9 +179,11 @@ export default{
 <style lang="scss" scoped="scoped">
 .filter {
   position: relative;
-  z-index: 100;
+  z-index: -1;
   padding: 0.266666rem 0; //10
+  margin-top: -0.133333rem;
   background-color: #fff;
+  // border: 1px solid red;
   .filter_nav {
     .nav_item {
       flex-grow: 1;
