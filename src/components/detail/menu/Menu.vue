@@ -23,7 +23,7 @@
         <div class="menu_main flex" :style="{height:con_height}" ref="menu_main" v-if="menu">
             <!-- 左侧菜单 -->
             <ul class="main_class">
-                <li class="class_item" v-for="item in menu" :key="item">
+                <li class="class_item" :class="{class_active:menu_index===i}" @click="menuSelect(i)" v-for="(item,i) in menu" :key="item">
                     <p>
                         <img :src="$formatImgSrc(item.grey_icon_url)" alt=""  v-if="item.grey_icon_url"/>
                         <span>{{item.name}}</span>
@@ -32,9 +32,9 @@
                 </li>
             </ul>
             <!-- 菜单主体 -->
-            <div class="main_con grow_shrink">
+            <div class="main_con grow_shrink" ref="main_con">
                 <div class="slideWrap">
-                    <dl class="con_item" v-for="item in menu" :key="item.id">
+                    <dl class="con_item"  v-for="item in menu" :key="item.id">
                         <!-- 分类标题 -->
                         <dt class="item_title">
                             <span class="title_main">{{item.name}}</span>
@@ -43,7 +43,7 @@
                             >
                         </dt>
                         <!-- 主体内容 -->
-                        <dd class="item_desc flex" v-for="food in item.foods">
+                        <dd class="item_desc flex" v-for="food in item.foods" :key="food.id">
                             <img class="desc_img" :src="$formatImgSrc(food.image_path)" alt="" />
                             <div class="desc_main">
                                 <h3 class="main_name t_ellipsis">{{food.name}}</h3>
@@ -73,12 +73,15 @@
 import menuModel from '../js/menuModel.js'
 export default{
     setup(){
-        const {recommend,menu,con_height} = menuModel();
+        const {recommend,menu,con_height,menuSelect,menu_index} = menuModel();
 
         return{
             recommend,
             menu,
-            con_height
+            con_height,
+			menuSelect,
+			menu_index,
+
         }
     }
 }
@@ -272,7 +275,7 @@ export default{
 								.btn_price {
 									color: #F07373;
 
-									span {}
+									// span {}
 
 									.price {
 										font-size: 0.426666rem; //16
