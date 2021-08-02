@@ -104,16 +104,20 @@
             </nav>
 			<router-view></router-view>
         </div>
+		<!-- 购物车 -->
+		<ShoppingCar></ShoppingCar>
     </div>
 </template>
 
 <script>
 import detailModel from "./js/detailModel";
 import ActivityList from '../activityList/ActivityList.vue'
+import ShoppingCar from '../shoppingcar/ShoppingCar.vue'
 import { NoticeBar,Icon,Popup ,Overlay  } from 'vant';
 export default {
   components:{
     ActivityList,
+	ShoppingCar,
     [NoticeBar.name]:NoticeBar,
     [Icon.name]:Icon,//必须导入图标组件，否则滚动条滚动一次后图标就会消失
     [Popup.name]:Popup,//弹出层有一个遮罩功能需要遮罩层组件

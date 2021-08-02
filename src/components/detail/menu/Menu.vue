@@ -12,9 +12,13 @@
                             <span>月售{{item.month_sales}}份</span>-
                             <span v-if='item.satisfy_rate'>好评{{item.satisfy_rate}}%</span>
                         </p>
+						
                         <div class="item_count flex" v-for="food in item.specfoods" :key="food.id">
-                            <span class="count_price">{{food.price.toFixed(2)}}</span>
+                            <span class="count_price">{{food.price.toFixed(1)}}</span>
+							<!-- 加/减购物车的按钮,绑定data.count传给子组件，$event可接收多个参数 -->
+						<BaseButton :count="count(item)" @changenum="changeCount(item,$event)"></BaseButton>
                         </div>
+						
                     </li>
                 </ul>
             </div>
@@ -57,9 +61,13 @@
                                 </p>
                                 <div class="main_btn flex">
                                     <div class="btn_price">
-                                        <span class="price">0.1</span>
-                                        <span class="originPrice">12.8</span>
+										<!-- 现价 -->
+                                        <span class="price">{{food.specfoods[0].price}}</span>
+										<!-- 原价 -->
+                                        <span class="originPrice" v-if="food.specfoods[0].original_price">{{food.specfoods[0].original_price}}</span>
                                     </div>
+									<!-- 加/减购物车的按钮 -->
+								<BaseButton :count="count(food)" @changenum="changeCount(food,$event)"></BaseButton>
                                 </div>
                             </div>
                         </dd>
@@ -71,9 +79,14 @@
 </template>
 <script>
 import menuModel from '../js/menuModel.js'
+// import BaseButton from '@comps/button/BaseButton.vue'
+import BaseButton from '../../button/BaseButton.vue'
 export default{
+	components:{
+		BaseButton
+	},
     setup(){
-        const {recommend,menu,con_height,menuSelect,menu_index} = menuModel();
+        const {recommend,menu,con_height,menuSelect,menu_index,changeCount,count} = menuModel();
 
         return{
             recommend,
@@ -81,7 +94,8 @@ export default{
             con_height,
 			menuSelect,
 			menu_index,
-
+			changeCount,
+			count
         }
     }
 }

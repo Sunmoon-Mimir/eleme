@@ -7,14 +7,76 @@ const state = () => {
     return {
         test: '测试vuex',
         //定义对象 存储详情页的数据
-        detailDate: null
+        detailDate: null,
+        // 加购状态
+        foodState: {}
     }
 }
 
 const mutations = {
     setDetailDate(state, data) {
         state.detailDate = data
+    },
+    //加购商品
+    addFoods(state, item) {
+        //商家
+        var foodState = state.foodState, //购物车状态
+            resID = item.restaurant_id, //商家ID
+            foodID = item.specfoods[0].food_id; //商品ID
+        var foods; //商品
+        if (resID in foodState) { //判断当前商家或商品是否存在
+            foods = foodState[resID].foods;
+            foodState[resID].count_all++
+                //商品是否存在
+                if (foodID in foods) {
+
+                    foods[foodID].count++;
+                    //商品数量+1
+
+                } else {
+                    //添加商品
+                    foods[foodID] = {
+                        count: 1,
+                        item
+                    }
+                }
+        } else {
+            //第一次点击没有商家没有商品添加进来
+            //添加新的商家
+            foodState[resID] = {
+                count_all: 1, //商品加购总数量
+                foods: {
+                    [foodID]: { //foodID是数值不是变量，所以用[]书写
+                        count: 1,
+                        item
+                    }
+                }
+            }
+        }
+        // console.log('购物车', item)
+        // console.log(foodState)
+    },
+    reduceFoods(state, item) {
+        var foodState = state.foodState, //购物车状态
+            resID = item.restaurant_id, //商家ID
+            foodID = item.specfoods[0].food_id; //商品ID
+
+        var res = foodState[resID], //商家数据
+            food = res.foods[foodID]; //商品数据
+        if (res) {
+            if (food) {
+                food.count--; //商品数量
+                res.count_all--; //商品总数
+                if (res.count_all <= 0) {
+                    delete foodState[resID]
+                }
+                if (food.count <= 0) {
+                    delete res.foods[foodID]
+                }
+            }
+        }
     }
+
 }
 const getters = {
     //把rst数据转换为对象

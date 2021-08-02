@@ -4,7 +4,6 @@ import {
     reactive,
     onMounted,
     computed,
-    toRef,
 } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -25,7 +24,10 @@ function menuModel() {
         }),
         con_height: 0, //当前菜单内容的高度
         menu_tops: [],
-        menu_index: 0
+        menu_index: 0,
+        foodState: computed(() => { //商品加购的信息
+            return $store.state.foodState;
+        })
     });
 
     //设置菜单内容区域的高度
@@ -38,7 +40,7 @@ function menuModel() {
         //wH-navH=菜单区域的高度
         var arg = wH - navH;
         data.con_height = arg / 37.5 + "rem";
-        console.log(wH, navH, arg);
+        // console.log(wH, navH, arg);
     };
     //选中左侧菜单
     const menuSelect = (i) => {
@@ -49,6 +51,7 @@ function menuModel() {
         // var main_con = proxy.$refs.menu_main.getElementsByClassName('main_con');
 
         var main_con = proxy.$refs.main_con;
+        proxy.$autoTop(0, main_con);
         //把获取到的高度赋值给main_con
         main_con.scrollTop = data.menu_tops[i];
 
@@ -92,13 +95,46 @@ function menuModel() {
                     break;
                 }
             }
-            console.log(i_, index);
-        });
+            // console.log(i_, index);
+        }, true);
     });
 
+    const count = (item) => {
+        console.log(item)
+        var
+            resID = item.restaurant_id, //商家ID
+            foodID = item.specfoods[0].food_id, //商品ID
+            res = data.foodState[resID], //当前商品对应商家的id
+            food; //商品
+        if (res) {
+            //通过商品ID从商家去拿取 商品信息
+            food = res.foods[foodID]
+            if (food) {
+                return food.count;
+            }
+        }
+
+        return 0;
+    }
+
+    //加/减购物车
+    const changeCount = (item, boll) => {
+        // console.log(boll ? '加' : '减')
+        // data.count += boll ? 1 : -1;
+        if (boll) {
+            //提交addFoods
+            $store.commit('addFoods', item)
+        } else {
+            $store.commit('reduceFoods', item)
+        }
+
+
+    }
     return {
         menuSelect,
         ...toRefs(data),
+        changeCount,
+        count
     };
 }
 
