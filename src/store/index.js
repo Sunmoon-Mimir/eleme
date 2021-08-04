@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import { getTransitionRawChildren } from '_vue@3.1.5@vue';
 
 //创建一个新的store实例
 
@@ -9,7 +10,9 @@ const state = () => {
         //定义对象 存储详情页的数据
         detailDate: null,
         // 加购状态
-        foodState: {}
+        foodState: {},
+        //分类的状态
+        cateGory: {}
     }
 }
 
@@ -19,6 +22,7 @@ const mutations = {
     },
     //加购商品
     addFoods(state, item) {
+        var { item, cid } = item
         //商家
         var foodState = state.foodState, //购物车状态
             resID = item.restaurant_id, //商家ID
@@ -39,6 +43,7 @@ const mutations = {
                         count: 1,
                         item
                     }
+                    console.log(foodState)
                 }
         } else {
             //第一次点击没有商家没有商品添加进来
@@ -48,6 +53,7 @@ const mutations = {
                 foods: {
                     [foodID]: { //foodID是数值不是变量，所以用[]书写
                         count: 1,
+                        cid,
                         item
                     }
                 }
@@ -55,8 +61,12 @@ const mutations = {
         }
         // console.log('购物车', item)
         // console.log(foodState)
+        //加入购物车时提交添加分类
+        this.commit('addCateGory', { resID, cid })
     },
     reduceFoods(state, item) {
+        var { item, cid } = item
+
         var foodState = state.foodState, //购物车状态
             resID = item.restaurant_id, //商家ID
             foodID = item.specfoods[0].food_id; //商品ID
@@ -75,8 +85,57 @@ const mutations = {
                 }
             }
         }
-    }
+        this.commit('subCateGory', { resID, cid })
+    },
+    clearCar(state, resID) {
+        //清空购物车数据
+        delete state.foodState[resID];
+        //清空分类的数据
+        delete state.cateGory[resID];
+    },
+    //增加分类数量
+    addCateGory(state, item) {
+        // console.log(item)
+        var cState = state.cateGory; //分类状态
+        var { resID, cid } = item //商家id 分类id
+        var res = cState[resID] //分类的信息
 
+        if (!cid) return;
+
+        //判断当前商家或者分类是否存在
+        if (resID in cState) {
+            // 判断类别是否存在
+            if (cid in res) {
+                res[cid]++; //分类数量
+            } else {
+                res[cid] = 1
+            }
+        } else {
+            //添加新的分类
+            cState[resID] = {
+                [cid]: 1
+            }
+        }
+        // console.log(cState)
+    },
+    //减少分类数量
+    subCateGory(state, item) {
+        var cState = state.cateGory; //分类状态
+        var { resID, cid } = item //商家id 分类id
+        var res = cState[resID] //分类的信息
+
+        if (!cid) return;
+        res[cid]--;
+        //删除类别
+        if (res[cid] <= 0) {
+            delete res[cid];
+        }
+        //删除商家
+        if (!state.foodState[resID] || state.foodState[resID].count_all <= 0) {
+            delete cState[resID];
+        }
+        console.log(cState)
+    }
 }
 const getters = {
     //把rst数据转换为对象

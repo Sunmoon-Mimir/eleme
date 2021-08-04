@@ -105,7 +105,7 @@
 			<router-view></router-view>
         </div>
 		<!-- 购物车 -->
-		<ShoppingCar></ShoppingCar>
+		<ShoppingCar :resID="rst.id"></ShoppingCar>
     </div>
 </template>
 

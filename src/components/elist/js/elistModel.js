@@ -1,11 +1,13 @@
 import { getCurrentInstance, toRefs, reactive, onMounted, computed } from "vue";
 //Vue3的新方式useRouter,useRoute
 import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 function elistModel() {
     const { proxy } = getCurrentInstance();
     const $Router = useRouter(); //赋值注意括号不能少
     const $Route = useRoute();
+    const $store = useStore()
     const data = reactive({
         shoplist: null, //请求到的数据是对象，定义接收该数据，类型必须为null
         // 当前用户所在的地理位置

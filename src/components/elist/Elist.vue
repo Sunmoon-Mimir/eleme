@@ -7,7 +7,6 @@
                 <!-- 图片 -->
                 <div class="item_img">
                     <img :src="$formatImgSrc(item.restaurant.image_path)" />
-                    <!-- <span class="img_arror"></span> -->
                 </div>
                 <!-- 描述 -->
                 <div class="item_desc">
@@ -115,7 +114,6 @@ export default {
     },
     setup(props) {
        const {boll_elistData,distanceCalc,showActivityFn,showActivity,toDetail}=elistModel()
-
         return {
         boll_elistData,
         distanceCalc,
@@ -139,16 +137,6 @@ export default {
                 z-index: 1;
                 width: 2.293333rem; //86
                 height: 2.293333rem;
-            }
-            .img_arror {
-                position: absolute;
-                right: -0.133333rem; //5
-                top: -0.133333rem;
-                background-image: linear-gradient(0deg, #fb7474, #c92020);
-                color: #fff;
-                font-size: 0.426666rem; //16
-                padding: 0.106666rem 0.213333rem; //4 8
-                border-radius: 0.8rem; //30
             }
         }
         .item_desc {

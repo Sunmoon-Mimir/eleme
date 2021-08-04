@@ -16,7 +16,8 @@
                         <div class="item_count flex" v-for="food in item.specfoods" :key="food.id">
                             <span class="count_price">{{food.price.toFixed(1)}}</span>
 							<!-- 加/减购物车的按钮,绑定data.count传给子组件，$event可接收多个参数 -->
-						<BaseButton :count="count(item)" @changenum="changeCount(item,$event)"></BaseButton>
+						<BaseButton :count="count(item)" 
+						@changenum="changeCount({item:item,cid:'recommend'},$event)"></BaseButton>
                         </div>
 						
                     </li>
@@ -32,7 +33,8 @@
                         <img :src="$formatImgSrc(item.grey_icon_url)" alt=""  v-if="item.grey_icon_url"/>
                         <span>{{item.name}}</span>
                     </p>
-                    <!-- <span class="item_countClass">111</span> -->
+					<!-- 分类的数量 -->
+                    <span class="item_countClass" v-show="cateCount(rst.id,item.id)">{{cateCount(rst.id,item.id)}}</span>
                 </li>
             </ul>
             <!-- 菜单主体 -->
@@ -67,7 +69,8 @@
                                         <span class="originPrice" v-if="food.specfoods[0].original_price">{{food.specfoods[0].original_price}}</span>
                                     </div>
 									<!-- 加/减购物车的按钮 -->
-								<BaseButton :count="count(food)" @changenum="changeCount(food,$event)"></BaseButton>
+								<BaseButton :count="count(food)" 
+								@changenum="changeCount({item:food,cid:item.id},$event)"></BaseButton>
                                 </div>
                             </div>
                         </dd>
@@ -79,15 +82,18 @@
 </template>
 <script>
 import menuModel from '../js/menuModel.js'
+import heightModel from '../js/heightModel.js'
+import carModel from '../../shoppingcar/js/carModel.js'
 // import BaseButton from '@comps/button/BaseButton.vue'
 import BaseButton from '../../button/BaseButton.vue'
+// import { Form } from 'vant'
 export default{
 	components:{
 		BaseButton
 	},
     setup(){
-        const {recommend,menu,con_height,menuSelect,menu_index,changeCount,count} = menuModel();
-
+        const {recommend,menu,changeCount,count,rst,cateCount} = menuModel();
+		const {con_height,menuSelect,menu_index} = heightModel();
         return{
             recommend,
             menu,
@@ -95,7 +101,9 @@ export default{
 			menuSelect,
 			menu_index,
 			changeCount,
-			count
+			count,
+			rst,
+			cateCount
         }
     }
 }
