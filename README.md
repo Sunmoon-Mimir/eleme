@@ -1,52 +1,18 @@
-    <!-- 分析 购物车需要的数据；
-加购 自动计算（现价和原价）以及商品数量，购物车列表可以显示数据
-    商品信息(现价、原价、数量)，才能知道某件商品的数量，以及店铺购买总数量
+```javascript
+//安装vite
+npm init @vitejs/app {name}
 
-    店铺是独立的、商品信息也不一样 -->
+cnpm i
 
+npm run dev
 
-    <!-- 记录所需的数据 (vuex)
-    加购状态
-    foodsState:{
-        店铺
-        id:{//加购商品的总数量
-            count_all:10,
-            //商品分类
-            class_count:5,
-            商品信息
-            foods:{
-                商品id 
-                f01:{//单个商品的数量
-                    count:1,
-                    商品信息
-                    item:{
-                        name:,
-                        price:,
-                    }
-                },
-                商品id
-                f02:{
-                    //单个商品的数量
-                    count:2,
-                    商品信息
-                    item:{
-                        name:,
-                        price:,
-                    }
-                }    
-            }
-        }
-    } -->
+npm run build
+```
 
 
-分类计数：
-记录分类所需要的数据
-//分类状态
-cateGory:{
-    <!-- 商家id -->
-    id:{
-        <!-- 根据分类id记录分类的数量 -->
-        -1:4,
-        -2:5,
-    }
-}
+要使用axios必须在vite中安装axios
+
+```
+cnpm i axios -S
+```
+
